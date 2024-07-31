@@ -1,2 +1,2 @@
 # tutorials_realpython
-Tutorials by [RealPython.org](realpython.org)
+Tutorials by [RealPython.org](https://realpython.com/)
