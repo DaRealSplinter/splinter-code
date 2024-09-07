@@ -1,0 +1,26 @@
+#!/bin/sh
+# Configure to use the proxy server
+UBUNTU_TEST=oracular-live-server-amd64.iso
+FOLDER=ubuntu-server-test
+export http_proxy=http://servproxy.carcgl.com:80
+export https_proxy=http://servproxy.carcgl.com:80
+
+# Prepare the area for downloads
+cd ~/Downloads
+rm -fr $FOLDER
+mkdir $FOLDER
+cd ~/Downloads/$FOLDER
+
+# Download the files from Ubuntu
+wget -c https://cdimage.ubuntu.com/ubuntu-server/daily-live/current/$UBUNTU_TEST
+wget -c https://cdimage.ubuntu.com/ubuntu-server/daily-live/current/SHA256SUMS
+wget -c https://cdimage.ubuntu.com/ubuntu-server/daily-live/current/SHA256SUMS.gpg
+
+# Verify the download
+gpg --list-keys >> list-keys
+#gpg --keyid-format long --keyserver hkp://keyserver.ubuntu.com --keyserver-options "http-proxy=$http_proxy" --recv-keys 843938DF228D22F7B3742BC0D94AA3F0EFE21092
+#gpg --keyid-format long --list-keys --with-fingerprint 843938DF228D22F7B3742BC0D94AA3F0EFE21092
+gpg --keyid-format long --verify SHA256SUMS.gpg SHA256SUMS
+
+sha256sum -c SHA256SUMS >> sha256sum.results
+
